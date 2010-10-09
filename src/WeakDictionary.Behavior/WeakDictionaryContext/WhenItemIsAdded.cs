@@ -7,7 +7,7 @@ namespace WeakDictionary.WeakDictionaryContext
         [Fact]
         public void DictionaryShouldContainTwoItems()
         {
-            Assert.Equal( 1, dictionary.Count );
+            Assert.Equal( 2, dictionary.Count );
         }
 
         [Fact]
@@ -35,6 +35,18 @@ namespace WeakDictionary.WeakDictionaryContext
 
             dictionary.TryGetValue( key1, out item );
             Assert.Equal( value1, item );
+        }
+
+        [Fact]
+        public void ContainsKeyShouldReturnTrueForKey()
+        {
+            Assert.True( dictionary.ContainsKey( key1 ) );
+        }
+
+        [Fact]
+        public void ContainsKeyShouldReturnFalseForNoneKey()
+        {
+            Assert.False( dictionary.ContainsKey( "not a key" ) );
         }
     }
 }

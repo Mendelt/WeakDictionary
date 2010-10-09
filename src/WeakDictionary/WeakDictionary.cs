@@ -70,7 +70,8 @@ namespace WeakDictionary
 
         public bool ContainsKey( TKey key )
         {
-            throw new NotImplementedException( );
+            TValue value;
+            return TryGetValue( key, out value );
         }
 
         public void Add( TKey key, TValue value )

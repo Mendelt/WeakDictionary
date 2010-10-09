@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="WeakDictionaryContext\WeakDictionaryContext.cs" />
-    <Compile Include="WeakDictionaryContext\WhenAddingItem.cs" />
+    <Compile Include="WeakDictionaryContext\WhenItemIsAdded.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WeakDictionaryContext\WhenClearingDictionary.cs" />
     <Compile Include="WeakDictionaryContext\WhenKeyIsGarbageCollected.cs" />
