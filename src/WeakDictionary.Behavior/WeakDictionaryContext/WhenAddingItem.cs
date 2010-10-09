@@ -1,32 +1,36 @@
 ﻿using System;
+using TestHelpers;
 using Xunit;
 
 namespace WeakDictionary.WeakDictionaryContext
 {
-    public class WhenDeletingKey
+    public class WeakDictionaryContext : ContextBase
+    { }
+
+    public class WhenDeletingKey : WeakDictionaryContext
     {
         public WeakDictionary<object, object> dictionary = new WeakDictionary<object, object>( );
 
         private object key = new object( );
         private object value = new object( );
 
-        public WhenDeletingKey()
+        public override void Given( )
         {
             dictionary.Add( key, value );
             key = null;
-            GC.Collect();
+            GC.Collect( );
         }
 
     }
 
-    public class WhenAddingItem
+    public class WhenAddingItem : WeakDictionaryContext
     {
         public WeakDictionary<object, object> dictionary = new WeakDictionary<object, object>( );
 
         object key = new object(  );
         object item = new object(  );
 
-        public WhenAddingItem()
+        public override void Given()
         {
             dictionary.Add(key, item);
         }

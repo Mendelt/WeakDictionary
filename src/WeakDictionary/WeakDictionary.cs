@@ -14,6 +14,11 @@ namespace WeakDictionary
             return ( from item in data select new KeyValuePair<TKey, TValue>( item.Key.Target as TKey, item.Value ) );
         }
 
+        private KeyValuePair<TKey, TValue> GetValue(TKey key)
+        {
+            return ( from item in GetValues( ) where ReferenceEquals( item.Key, key ) select item ).SingleOrDefault( );
+        }
+
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator( )
         {
             return GetValues( ).GetEnumerator( );
@@ -82,7 +87,7 @@ namespace WeakDictionary
 
         public TValue this[ TKey key ]
         {
-            get { throw new NotImplementedException( ); }
+            get { return GetValue( key ).Value; }
             set { throw new NotImplementedException( ); }
         }
 

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeakDictionary", "WeakDictionary\WeakDictionary.csproj", "{87188C7B-3A91-41DC-9CFF-FEE3210A01CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeakDictionary.Facts", "WeakDictionary.Facts\WeakDictionary.Facts.csproj", "{5FE1651C-C447-442F-9D14-2908819846F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeakDictionary.Behavior", "WeakDictionary.Behavior\WeakDictionary.Behavior.csproj", "{5FE1651C-C447-442F-9D14-2908819846F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
