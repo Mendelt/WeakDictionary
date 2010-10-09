@@ -42,8 +42,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="WeakDictionaryContext\WhenAddingItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WeakReferenceContext\WeakReferenceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WeakDictionary\WeakDictionary.csproj">
