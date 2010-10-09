@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WeakDictionary
 {
-    public class WeakDictionary<TKey, TValue> : IDictionary<TKey, TValue>
+    public class WeakDictionary<TKey, TValue> : IDictionary<TKey, TValue> where TKey : class
     {
-        private IDictionary<WeakReference, TValue> data = new Dictionary<WeakReference, TValue>();
+        private readonly IDictionary<WeakReference, TValue> data = new Dictionary<WeakReference, TValue>();
+
+        private IEnumerable<KeyValuePair<TKey, TValue>> GetValues()
+        {
+            return ( from item in data select new KeyValuePair<TKey, TValue>( item.Key.Target as TKey, item.Value ) );
+        }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator( )
         {
-            throw new NotImplementedException();
+            return GetValues( ).GetEnumerator( );
         }
 
         IEnumerator IEnumerable.GetEnumerator( )
         {
-            return GetEnumerator( );
+            return GetValues( ).GetEnumerator( );
         }
 
         public void Add( KeyValuePair<TKey, TValue> item )
@@ -45,12 +51,12 @@ namespace WeakDictionary
 
         public int Count
         {
-            get { throw new NotImplementedException( ); }
+            get { return GetValues( ).Count( ); }
         }
 
         public bool IsReadOnly
         {
-            get { throw new NotImplementedException( ); }
+            get { return false; }
         }
 
         public bool ContainsKey( TKey key )
@@ -61,6 +67,7 @@ namespace WeakDictionary
         public void Add( TKey key, TValue value )
         {
             var reference = new WeakReference( key );
+            data.Add( reference, value );
         }
 
         public bool Remove( TKey key )
