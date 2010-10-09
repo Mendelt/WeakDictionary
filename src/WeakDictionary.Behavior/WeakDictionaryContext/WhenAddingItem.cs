@@ -1,42 +1,11 @@
-﻿using System;
-using TestHelpers;
-using Xunit;
+﻿using Xunit;
 
 namespace WeakDictionary.WeakDictionaryContext
 {
-    public class WeakDictionaryContext : ContextBase
-    { }
-
-    public class WhenDeletingKey : WeakDictionaryContext
+    public class WhenItemIsAdded : WeakDictionaryContext
     {
-        public WeakDictionary<object, object> dictionary = new WeakDictionary<object, object>( );
-
-        private object key = new object( );
-        private object value = new object( );
-
-        public override void Given( )
-        {
-            dictionary.Add( key, value );
-            key = null;
-            GC.Collect( );
-        }
-
-    }
-
-    public class WhenAddingItem : WeakDictionaryContext
-    {
-        public WeakDictionary<object, object> dictionary = new WeakDictionary<object, object>( );
-
-        object key = new object(  );
-        object item = new object(  );
-
-        public override void Given()
-        {
-            dictionary.Add(key, item);
-        }
-
         [Fact]
-        public void DictionaryShouldContainOneItem()
+        public void DictionaryShouldContainTwoItems()
         {
             Assert.Equal( 1, dictionary.Count );
         }
@@ -44,7 +13,28 @@ namespace WeakDictionary.WeakDictionaryContext
         [Fact]
         public void ItemShouldBeInDictionary()
         {
-            Assert.Equal(item, dictionary[key]);
+            Assert.Equal(value1, dictionary[key1]);
+        }
+
+        [Fact]
+        public void ValuesShouldContainItemValue()
+        {
+            Assert.True( dictionary.Values.Contains( value1 ) );
+        }
+
+        [Fact]
+        public void KeysShouldContainItemKey()
+        {
+            Assert.True( dictionary.Keys.Contains( key1 ) );
+        }
+
+        [Fact]
+        public void TryGetItemShouldReturnItem()
+        {
+            object item;
+
+            dictionary.TryGetValue( key1, out item );
+            Assert.Equal( value1, item );
         }
     }
 }

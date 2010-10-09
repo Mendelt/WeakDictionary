@@ -9,39 +9,43 @@ namespace WeakDictionary
     {
         private readonly IDictionary<WeakReference, TValue> data = new Dictionary<WeakReference, TValue>();
 
-        private IEnumerable<KeyValuePair<TKey, TValue>> GetValues()
+        private IEnumerable<KeyValuePair<TKey, TValue>> GetItems()
         {
+            var garbageCollectedItems = from item in data where item.Key.IsAlive == false select item;
+
+            foreach (var item in garbageCollectedItems.ToList()) data.Remove( item );
+
             return ( from item in data select new KeyValuePair<TKey, TValue>( item.Key.Target as TKey, item.Value ) );
         }
 
-        private KeyValuePair<TKey, TValue> GetValue(TKey key)
+        private KeyValuePair<TKey, TValue> GetItems(TKey key)
         {
-            return ( from item in GetValues( ) where ReferenceEquals( item.Key, key ) select item ).SingleOrDefault( );
+            return ( from item in GetItems( ) where ReferenceEquals( item.Key, key ) select item ).SingleOrDefault( );
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator( )
         {
-            return GetValues( ).GetEnumerator( );
+            return GetItems( ).GetEnumerator( );
         }
 
         IEnumerator IEnumerable.GetEnumerator( )
         {
-            return GetValues( ).GetEnumerator( );
+            return GetItems( ).GetEnumerator( );
         }
 
         public void Add( KeyValuePair<TKey, TValue> item )
         {
-            throw new NotImplementedException( );
+            Add( item.Key, item.Value );
         }
 
         public void Clear( )
         {
-            throw new NotImplementedException( );
+            data.Clear( );
         }
 
         public bool Contains( KeyValuePair<TKey, TValue> item )
         {
-            throw new NotImplementedException( );
+            return GetItems( ).Contains( item );
         }
 
         public void CopyTo( KeyValuePair<TKey, TValue>[] array, int arrayIndex )
@@ -56,7 +60,7 @@ namespace WeakDictionary
 
         public int Count
         {
-            get { return GetValues( ).Count( ); }
+            get { return GetItems( ).Count( ); }
         }
 
         public bool IsReadOnly
@@ -82,23 +86,29 @@ namespace WeakDictionary
 
         public bool TryGetValue( TKey key, out TValue value )
         {
-            throw new NotImplementedException( );
+            value = default( TValue );
+            var item = GetItems( key );
+
+            if ( Equals( item, default(KeyValuePair<TKey, TValue>) ) ) return false;
+
+            value = item.Value;
+            return true;
         }
 
         public TValue this[ TKey key ]
         {
-            get { return GetValue( key ).Value; }
+            get { return GetItems( key ).Value; }
             set { throw new NotImplementedException( ); }
         }
 
         public ICollection<TKey> Keys
         {
-            get { throw new NotImplementedException( ); }
+            get { return ( from item in GetItems( ) select item.Key ).ToList( ); }
         }
 
         public ICollection<TValue> Values
         {
-            get { throw new NotImplementedException( ); }
+            get { return (from item in GetItems() select item.Value).ToList( ); }
         }
     }
 }
